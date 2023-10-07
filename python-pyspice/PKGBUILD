@@ -1,0 +1,18 @@
+pkgname=python-pyspice
+pkgver=1.5
+pkgrel=1
+pkgdesc="A Python wrapper for ngSPICE and Xyce"
+arch=('any')
+url="https://pypi.org/project/PySpice/"
+license=('GPL3')
+depends=('ngspice' 'python-numpy' 'python-scipy' 'python-matplotlib' 'python-pyyaml' 'python-ply' 'python-cffi')
+makedepends=('python-setuptools')
+optdepends=('xyce-serial')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/PySpice-org/Pyspice/archive/v$pkgver.tar.gz")
+sha256sums=('9779f8d32aab078b1bc4f3b92ae72cd578a5a0fa512b3f66ec3312ca97cb6773')
+
+package() {
+	tar -xvzf "$pkgname-$pkgver.tar.gz"
+	cd "$srcdir/PySpice-$pkgver"
+	python setup.py install --root="$pkgdir/" --optimize=1
+}
