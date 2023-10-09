@@ -1,0 +1,37 @@
+pkgname=openems-project-git
+pkgver=0.0.35.r13.g78e7642
+pkgrel=1
+epoch=
+pkgdesc="free and open electromagnetic field solver using the FDTD method."
+arch=('x86_64')
+url="http://openems.de/"
+license=('GPL3')
+groups=()
+depends=('nlohmann-json' 'qt5-base' 'qt5-x11extras' 'tinyxml' 'hdf5' 'boost' 'vtk' 'unixodbc' 'cgal' 'openmpi' 'glew' 'python' 'netcdf' 'proj' 'libogg' 'libtheora' 'libharu')
+makedepends=('cmake' 'git' 'chrpath' 'gengetopt')
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=('openems' 'openems-git')
+replaces=()
+backup=()
+options=()
+install=
+source=("${pkgname%-VCS}::git+https://github.com/AbleArcher88/openEMS-Project.git")
+noextract=()
+md5sums=('SKIP')
+
+_gitname="openEMS-Project"
+
+build() {
+    cd "$srcdir/${pkgname%-VCS}"
+    git submodule update --init
+    ./update_openEMS.sh "$srcdir/${pkgname%-VCS}/openems_path" --with-MPI --with-hyp2mat --with-CTB --python
+}
+
+package() {
+  cd "$srcdir/${pkgname%-VCS}/openems_path"
+  mkdir -p $pkgdir/usr/
+  cp -R * $pkgdir/usr/
+}
+
